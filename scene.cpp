@@ -8,6 +8,7 @@
 #include "./Textures/basicnoise.hpp"
 #include "./Textures/marble.hpp"
 #include "./Textures/qbStone1.hpp"
+#include <chrono>
 
 using namespace std;
 
@@ -377,6 +378,9 @@ qbRT::Scene::Scene()
 // Function to perform the rendering.
 bool qbRT::Scene::Render(qbImage &outputImage)
 {
+	// Record the start time.
+	auto startTime = std::chrono::steady_clock::now();
+
 	// Get the dimensions of the output image.
 	int xSize = outputImage.GetXSize();
 	int ySize = outputImage.GetYSize();
@@ -439,6 +443,14 @@ bool qbRT::Scene::Render(qbImage &outputImage)
 		}
 	}
 	
+	// Record the end time.
+	auto endTime = std::chrono::steady_clock::now();
+    
+	// Compute the time it took to render.
+	std::chrono::duration<double> renderTime = endTime - startTime;
+	std::cout.flush();
+	std::cout << "\n\nRendering time: " << renderTime.count() << "s" << std::endl;
+
 	std::cout << std::endl;
 	return true;
 }
